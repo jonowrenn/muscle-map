@@ -1,12 +1,92 @@
-# React + Vite
+# Mind & Muscle
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive anatomy learning app built with Flask. Click on muscle groups on a 3D body map to learn their anatomy, actions, and exercises — then test your knowledge with a quiz.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Interactive Muscle Map** — clickable SVG body (front & back view) with hover highlights
+- **Muscle Detail Pages** — anatomy overview, key actions carousel, exercises, and fun facts for 11 muscle groups
+- **Progress Tracking** — localStorage tracks which muscles you've visited; unlocks the quiz once all are explored
+- **Quiz Mode** — multiple-choice quiz with dropdown questions across all muscle groups
+- **Quiz Game** — timed game mode with scoring and streaks
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+- Python / Flask
+- Jinja2 templating
+- Bootstrap 5
+- jQuery
+- Vanilla JS
+
+---
+
+## Run Locally
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/nicorox247/MuscleMap.git
+cd MuscleMap
+```
+
+### 2. Create and activate a virtual environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the app
+
+```bash
+python server.py
+```
+
+Open [http://localhost:5000](http://localhost:5000) in your browser.
+
+---
+
+## Project Structure
+
+```
+MuscleMap/
+├── server.py              # Flask routes
+├── muscle_data.py         # Muscle anatomy data
+├── quiz_questions.py      # Quiz question data
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── main.css
+│   ├── js/
+│   │   ├── script.js      # Muscle map interactions & session tracking
+│   │   ├── progress-tracker.js
+│   │   ├── muscle.js
+│   │   ├── quiz.js
+│   │   └── quizgame.js
+│   ├── images/            # Muscle anatomy images
+│   └── gifs/              # Exercise & action GIFs
+└── templates/
+    ├── base.html
+    ├── index.html
+    ├── muscle.html
+    ├── muscle_page_1–4.html
+    ├── quiz.html
+    ├── quizgame.html
+    └── about.html
+```
+
+---
+
+## Deployment
+
+Deployed on Vercel. See `vercel.json` for configuration.
