@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}{{ muscle.name }} – Quiz{% endblock %}
+
+{% block content %}
+<div class="content-wrapper muscle-page">
+  <!-- Progress Tracker -->
+  <div class="progress-tracker">
+    <ul>
+      <li class="completed" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=1) }}">
+        <span class="check-mark">✓</span>
+        Muscle Overview
+      </li>
+      <li class="completed" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=2) }}">
+        <span class="check-mark">✓</span>
+        How to Train
+      </li>
+      <li class="current" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=4) }}">
+        <span class="check-mark">✓</span>
+        Quiz
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 class="text-accent mb-4 display-4">{{ muscle.name }} Quiz</h1>
+
+    {% if muscle.quiz and muscle.quiz.questions %}
+      {% set q = muscle.quiz.questions[0] %}
+      <div class="card p-5 mt-4 quiz-card">
+        <form id="quiz-form">
+          <p class="lead fs-3 mb-4"><strong>{{ q.question }}</strong></p>
+          {% for choice in q.choices %}
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="radio" name="answer" id="choice-{{ loop.index }}" value="{{ choice }}">
+              <label class="form-check-label fs-4" for="choice-{{ loop.index }}">
+                {{ choice }}
+              </label>
+            </div>
+          {% endfor %}
+          <button type="button" class="btn btn-accent btn-lg mt-4" onclick="checkAnswer()">Check Answer</button>
+        </form>
+
+        <div id="feedback" class="mt-4 fs-5"></div>
+      </div>
+
+      <script>
+        function checkAnswer() {
+          const selected = document.querySelector('input[name="answer"]:checked');
+          const feedback = document.getElementById('feedback');
+          const correct = "{{ q.answer }}";
+
+          if (!selected) {
+            feedback.innerHTML = "<div class='alert alert-warning fs-5'>Please select an answer.</div>";
+            return;
+          }
+
+          if (selected.value === correct) {
+            feedback.innerHTML = "<div class='alert alert-success fs-5'>✅ Correct!</div>";
+          } else {
+            feedback.innerHTML = "<div class='alert alert-danger fs-5'>❌ Incorrect. The correct answer is: <strong>" + correct + "</strong>.</div>";
+          }
+        }
+      </script>
+    {% else %}
+      <div class="alert alert-info fs-5">
+        <i class="fas fa-info-circle me-2"></i>No quiz available for this muscle group.
+      </div>
+    {% endif %}
+
+    <div class="navigation-buttons d-flex justify-content-center gap-3 mt-5 flex-wrap">
+      <a href="{{ url_for('muscle_page', muscle_name=muscle_name, page=2) }}" class="btn btn-outline-accent btn-lg">
+        <i class="fas fa-arrow-left me-2"></i>Back to How to Train
+      </a>
+      <a href="{{ url_for('muscle_map') }}" class="btn btn-accent btn-lg">
+        <i class="fas fa-map me-2"></i>Back to Muscle Map
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

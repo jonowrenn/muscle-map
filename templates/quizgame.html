@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Train That Muscle! - MuscleMap{% endblock %}
+
+{% block content %}
+
+<div class="game-container">
+  <div class="combo-bar" id="comboBar"></div>
+  <h1 class="text-center mb-4">Train That Muscle!</h1>
+
+  <div class="timer-display" id="timer">60</div>
+  <div class="timer-bar"><div class="timer-bar-fill" id="timerBarFill"></div></div>
+  <div class="score-display">Score: <span id="score">0</span></div>
+  <div class="streak-display">Streak: <span id="streak">0</span>x</div>
+
+  <div class="category-filter">
+    <div class="btn-group" role="group">
+      <button class="btn btn-game active" data-category="all">All Muscles</button>
+      <button class="btn btn-game" data-category="upper">Upper Body</button>
+      <button class="btn btn-game" data-category="lower">Lower Body</button>
+    </div>
+  </div>
+
+  <div class="question-container" id="questionContainer">
+    <h3 id="questionText" class="mb-4"></h3>
+    <div id="answerOptions"></div>
+  </div>
+
+  <div class="game-controls">
+    <button class="btn btn-game" id="startGame">Start Game</button>
+    <button class="btn btn-game" id="tryAgain" style="display: none;">Try Again</button>
+  </div>
+
+  <div class="results-container" id="resultsContainer">
+    <h3 class="text-center mb-4">Game Over!</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Your Results</h4>
+        <p>Final Score: <span id="finalScore">0</span></p>
+        <p>Correct Answers: <span id="correctAnswers">0</span></p>
+        <p>Average Response Time: <span id="avgResponseTime">0</span>s</p>
+        <p>Best Streak: <span id="bestStreak">0</span>x</p>
+      </div>
+      <div class="col-md-6">
+        <h4>Leaderboard</h4>
+        <div class="leaderboard" id="leaderboard"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/quizgame.js') }}"></script>
+
+{% endblock %}

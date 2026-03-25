@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}{{ muscle.name }} – Subgroups{% endblock %}
+
+{% block content %}
+<div class="content-wrapper muscle-page">
+  <!-- Progress Tracker -->
+  <div class="progress-tracker">
+    <ul>
+      <li class="completed" data-page="1" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=1) }}">
+        <span class="check-mark">✓</span>
+        Muscle Overview
+      </li>
+      <li class="completed" data-page="2" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=2) }}">
+        <span class="check-mark">✓</span>
+        How to Train
+      </li>
+      <li class="current" data-page="3" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=3) }}">
+        <span class="check-mark">✓</span>
+        Subgroups
+      </li>
+      <li class="locked" data-page="4" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=4) }}">
+        <span class="check-mark">✓</span>
+        Quiz
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 class="mb-4">Subgroups of the {{ muscle.name }}</h1>
+
+    <div class="muscle-info mb-4">
+      <div class="card-body p-4" style="max-width: 800px; margin: 0 auto;">
+        {% if muscle.subgroups %}
+          <h2 class="card-title text-accent mb-3">
+            <i class="fas fa-layer-group me-2"></i>Muscle Subgroups
+          </h2>
+          <p class="text-muted mb-3">The {{ muscle.name }} is made up of the following subgroups:</p>
+          <div class="row g-4">
+            {% for subgroup in muscle.subgroups %}
+              <div class="col-md-6">
+                <div class="subgroup-card p-3">
+                  <h3 class="h5 mb-2">{{ subgroup }}</h3>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>No subgroups defined for this muscle.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4" style="max-width: 800px; margin: 0 auto;">
+      <a href="{{ url_for('muscle_page', muscle_name=muscle_name, page=2) }}" class="btn btn-outline-accent">
+        <i class="fas fa-arrow-left me-2"></i>Back to How to Train
+      </a>
+      <a href="{{ url_for('muscle_page', muscle_name=muscle_name, page=4) }}" class="btn btn-accent">
+        Take the Quiz <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

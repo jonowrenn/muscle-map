@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Muscle Quiz – MuscleMap{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+  <h1 class="mb-4 text-center">Muscle Strengthening Quiz</h1>
+
+  <!-- Progress Bar -->
+  <div class="progress mb-4">
+    <div id="quiz-progress" class="progress-bar" role="progressbar" 
+         aria-valuenow="0" aria-valuemin="0" aria-valuemax="15">
+      0/15 Questions Answered
+    </div>
+  </div>
+
+  <p class="text-center mb-2">Question <span id="current-question">1</span> of 15</p>
+
+  <form id="quiz-form" class="text-start">
+    <!-- Question 1 -->
+    <div class="mb-4 question-container" data-question-number="1">
+      <div class="text-center mb-4">
+        <h4>Click the muscle that is primarily worked during bicep curls:</h4>
+        <div class="quiz-svg-container">
+          <svg viewBox="0 0 599 847" xmlns="http://www.w3.org/2000/svg">
+            <image href="{{ url_for('static', filename='images/muscle_map.png') }}"
+                   width="599" height="847" />
+            <g id="muscle-links">
+              <!-- Chest (Pectoralis) -->
+              <path id="chest-left" class="clickable-muscle"
+                    data-muscle="pectorals"
+                    d="M 290,189 L 259,185 L 249,191 L 241,197 L 235,209 L 238,230 L 244,247 L 254,258 L 266,262 L 291,259 L 298,248 L 299,228 L 291,191 Z" />
+              <path id="chest-right" class="clickable-muscle"
+                    data-muscle="pectorals"
+                    d="M 315,190 L 308,204 L 305,221 L 305,247 L 312,258 L 319,262 L 328,264 L 337,264 L 347,260 L 354,254 L 359,243 L 364,229 L 367,218 L 367,213 L 367,206 L 358,195 L 350,190 L 341,187 L 321,189 L 315,192 Z" />
+
+              <!-- Shoulders (Deltoids) -->
+              <path id="deltoid-left" class="clickable-muscle"
+                    data-muscle="deltoid"
+                    d="M 250,186 L 236,197 L 233,207 L 220,226 L 214,229 L 209,226 L 207,213 L 207,202 L 209,192 L 215,184 L 221,179 L 229,176 L 233,174 L 239,179 L 255,184 Z" />
+              <path id="deltoid-right" class="clickable-muscle"
+                    data-muscle="deltoid"
+                    d="M 343,185 L 359,193 L 369,205 L 373,215 L 381,225 L 386,227 L 390,226 L 392,223 L 394,218 L 394,210 L 394,204 L 392,194 L 390,188 L 385,182 L 379,179 L 373,175 L 367,173 L 362,181 L 353,181 L 343,185 Z" />
+
+              <!-- Biceps -->
+              <path id="bicep-left" class="clickable-muscle"
+                    data-muscle="biceps"
+                    d="M 227,221 L 219,232 L 210,249 L 206,265 L 203,279 L 203,292 L 207,301 L 209,305 L 217,301 L 224,290 L 226,281 L 232,263 L 234,253 L 235,241 L 234,230 L 231,221 Z" />
+              <path id="bicep-right" class="clickable-muscle"
+                    data-muscle="biceps"
+                    d="M 384,232 L 373,220 L 369,234 L 367,252 L 370,263 L 375,277 L 380,292 L 385,299 L 392,303 L 398,289 L 399,274 L 396,258 L 390,244 Z" />
+            </g>
+          </svg>
+        </div>
+        <div class="answer-feedback mt-3" style="display: none;"></div>
+        <div class="hint mt-2 text-muted">
+          <small>Click on the muscle that you think is most targeted during bicep curls</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="mb-4 question-container" data-question-number="2">
+      <div class="text-center mb-4">
+        <h4>Click the muscle that is primarily worked during bench press:</h4>
+        <div class="quiz-svg-container">
+          <svg viewBox="0 0 599 847" xmlns="http://www.w3.org/2000/svg">
+            <image href="{{ url_for('static', filename='images/muscle_map.png') }}"
+                   width="599" height="847" />
+            <g id="muscle-links">
+              <!-- Same muscle paths as Q1 -->
+              <path id="chest-left" class="clickable-muscle"
+                    data-muscle="pectorals"
+                    d="M 290,189 L 259,185 L 249,191 L 241,197 L 235,209 L 238,230 L 244,247 L 254,258 L 266,262 L 291,259 L 298,248 L 299,228 L 291,191 Z" />
+              <path id="chest-right" class="clickable-muscle"
+                    data-muscle="pectorals"
+                    d="M 315,190 L 308,204 L 305,221 L 305,247 L 312,258 L 319,262 L 328,264 L 337,264 L 347,260 L 354,254 L 359,243 L 364,229 L 367,218 L 367,213 L 367,206 L 358,195 L 350,190 L 341,187 L 321,189 L 315,192 Z" />
+            </g>
+          </svg>
+        </div>
+        <div class="answer-feedback mt-3" style="display: none;"></div>
+        <div class="hint mt-2 text-muted">
+          <small>Click on the muscle that is most activated during bench press</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="mb-4 question-container" data-question-number="3">
+      <div class="text-center mb-4">
+        <h4>Click the muscle that is primarily worked during lateral raises:</h4>
+        <div class="quiz-svg-container">
+          <svg viewBox="0 0 599 847" xmlns="http://www.w3.org/2000/svg">
+            <image href="{{ url_for('static', filename='images/muscle_map.png') }}"
+                   width="599" height="847" />
+            <g id="muscle-links">
+              <!-- Include the deltoids and other muscles -->
+              <path id="deltoid-left" class="clickable-muscle"
+                    data-muscle="deltoid"
+                    d="M 250,186 L 236,197 L 233,207 L 220,226 L 214,229 L 209,226 L 207,213 L 207,202 L 209,192 L 215,184 L 221,179 L 229,176 L 233,174 L 239,179 L 255,184 Z" />
+              <path id="deltoid-right" class="clickable-muscle"
+                    data-muscle="deltoid"
+                    d="M 343,185 L 359,193 L 369,205 L 373,215 L 381,225 L 386,227 L 390,226 L 392,223 L 394,218 L 394,210 L 394,204 L 392,194 L 390,188 L 385,182 L 379,179 L 373,175 L 367,173 L 362,181 L 353,181 L 343,185 Z" />
+            </g>
+          </svg>
+        </div>
+        <div class="answer-feedback mt-3" style="display: none;"></div>
+        <div class="hint mt-2 text-muted">
+          <small>Click on the muscle that is most activated during lateral raises</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dropdown Questions -->
+    {% for q in dropdown_questions %}
+    <div class="mb-4 question-container" data-question-number="{{ q.number }}">
+      <div class="text-center mb-4">
+        <img src="{{ url_for('static', filename='images/' ~ q.image) }}" 
+             alt="{{ q.alt }}"
+             class="muscle-image img-fluid"
+             data-bs-toggle="tooltip"
+             title="{{ q.alt }}"
+             style="width: 150px; height: 150px;">
+      </div>
+
+      <div class="question-content">
+        <div class="d-flex align-items-start mb-2">
+          <label for="q{{ q.number }}" class="form-label mb-0" data-bs-toggle="tooltip" title="{{ q.alt }}">
+            {{ q.number }}. {{ q.question }}
+          </label>
+        </div>
+        <div class="input-group">
+          <select id="q{{ q.number }}" class="form-select quiz-select">
+            <option value="">Select an answer</option>
+            {% for option in q.options %}
+              <option value="{{ option.value }}">{{ option.text }}</option>
+            {% endfor %}
+          </select>
+          <span class="feedback-icon ms-2" style="display: none;"></span>
+        </div>
+
+        <div class="answer-feedback mt-1" style="display: none;"></div>
+        <button type="button" class="btn btn-link fun-fact-btn p-0 mt-2" 
+                data-bs-toggle="collapse" data-bs-target="#fact{{ q.number }}">
+          📚 Show Fun Fact
+        </button>
+        <div id="fact{{ q.number }}" class="collapse mt-2">
+          <div class="card card-body bg-light">
+            {{ q.fun_fact }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </form>
+
+  <div class="d-flex justify-content-between my-3">
+    <button type="button" id="prev-button" class="btn btn-secondary">Previous</button>
+    <button type="button" id="next-button" class="btn btn-primary">Next</button>
+    <button type="submit" id="submit-button" class="btn btn-success" style="display: none;">Submit</button>
+  </div>
+
+  <!-- Inject answer key for JavaScript -->
+  <script id="quiz-data" type="application/json">
+    {{ question_answers | tojson }}
+  </script>
+
+  <!-- Include the quiz logic -->
+  <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</div>
+{% endblock %}

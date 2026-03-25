@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}{{ muscle.name }} – Exercises{% endblock %}
+
+{% block content %}
+<div class="content-wrapper muscle-page">
+  <!-- Progress Tracker -->
+  <div class="progress-tracker">
+    <ul>
+      <li class="completed" data-page="1" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=1) }}">
+        <span class="check-mark">✓</span>
+        Muscle Overview
+      </li>
+      <li class="current" data-page="2" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=2) }}">
+        <span class="check-mark">✓</span>
+        How to Train
+      </li>
+      <li class="locked" data-page="4" data-href="{{ url_for('muscle_page', muscle_name=muscle_name, page=4) }}">
+        <span class="check-mark">✓</span>
+        Quiz
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1 class="mb-2">Training the {{ muscle.name }}</h1>
+
+    <h3 class="text-center text-accent mt-3 mb-2">{{ muscle.name.split()[0] }} Exercises</h3>
+
+    <div id="exerciseCarousel" class="carousel slide" data-bs-ride="false">
+    
+      <div class="carousel-inner">
+        {% for exercise in muscle.exercises %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <div class="card text-center p-2">
+            <img src="{{ url_for('static', filename='gifs/exercises/' + muscle_name + '/' + exercise.gif) }}"
+                 class="card-img-top mx-auto d-block"
+                 alt="{{ exercise.name }}"
+                 style="max-height: 250px; object-fit: contain;" />
+            <div class="card-body py-2">
+              <h5 class="card-title text-accent mb-1">{{ exercise.name }}</h5>
+              <p class="card-subtitle mb-1 text-muted">{{ exercise.type }} Exercise</p>
+              <p class="card-text mb-0">{{ exercise.description }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    
+      <!-- Carousel indicators -->
+      <div class="carousel-indicators mb-2 mt-1">
+        {% for exercise in muscle.exercises %}
+          <button type="button"
+                  data-bs-target="#exerciseCarousel"
+                  data-bs-slide-to="{{ loop.index0 }}"
+                  class="{% if loop.first %}active{% endif %}"
+                  aria-current="{% if loop.first %}true{% endif %}"
+                  aria-label="Slide {{ loop.index }}">
+          </button>
+        {% endfor %}
+      </div>
+    
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#exerciseCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#exerciseCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    
+    <div class="mt-2">
+    
+      <div class="navigation-buttons d-flex justify-content-center gap-2 mt-2 flex-wrap">
+        <a href="{{ url_for('muscle_page', muscle_name=muscle_name, page=1) }}"
+           class="btn btn-outline-accent">
+           ← Back to Overview
+        </a>
+      
+        <a id="exerciseNextButton"
+           href="{{ url_for('muscle_page', muscle_name=muscle_name, page=4) }}"
+           class="btn btn-accent disabled"
+           tabindex="-1" aria-disabled="true">
+           Take the Quiz →
+        </a>
+      </div>
+    </div>
+
+    <p id="exerciseInstruction" class="text-center text-muted mb-2">
+      🔒 View all exercises to unlock the next step.
+    </p>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const carousel = document.getElementById('exerciseCarousel');
+        const totalSlides = carousel.querySelectorAll('.carousel-item').length;
+        const viewedSlides = new Set();
+        const nextBtn = document.getElementById('exerciseNextButton');
+        const instruction = document.getElementById('exerciseInstruction');
+    
+        carousel.addEventListener('slid.bs.carousel', function (event) {
+          viewedSlides.add(event.to);
+    
+          if (viewedSlides.size === totalSlides) {
+            nextBtn.classList.remove('disabled');
+            nextBtn.removeAttribute('aria-disabled');
+            nextBtn.removeAttribute('tabindex');
+            nextBtn.style.pointerEvents = 'auto';
+            nextBtn.classList.add('unlocked-glow');
+    
+            if (instruction) {
+              instruction.classList.add('unlocked');
+              setTimeout(() => instruction.style.display = 'none', 400);
+            }
+          }
+        });
+    
+        viewedSlides.add(0); // Register the first slide
+      });
+    </script>
+    
+  </div>
+</div>
+{% endblock %}
